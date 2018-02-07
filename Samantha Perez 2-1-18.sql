@@ -33,7 +33,7 @@ END
  Birthdate date,
  )
 
- Print '--Members table created --'
+ Print '--Members table created'
 
   INSERT INTO Members (MemberID, Firstname, MiddleName, Lastname, Email, Phone, Joindate, Birthdate, Gender, currentflag)
  VALUES
@@ -55,19 +55,34 @@ END
 ('M0015', 'Rowen', 'Arvin', 'Birdfield', 'abirdfielde@over-blog.com', '915-299-3451','10/06/2017','01/09/1983', 'M',0)
 
 
+Create Table SubscriptionPrices
+(
+SubType varchar(10) Primary Key,
+SubPrice Money,
+)
+
+PRINT '--SubscriptionPrices Table Created'
+
+INSERT INTO SubscriptionPrices (Subtype, Subprice)
+values
+('Bi-Yearly', '189'),
+('Yearly', '99'),
+('Quarterly', '27'),
+('Monthly', '9.99')
 
  
 Create table SubscriptionLevels
 (
-MemberID Varchar(10) Primary Key,
+MemberID Varchar(10) PRIMARY KEY,
 Subtype Varchar(10),
 SubDescription Varchar(max),
 RenewalAmt Money,
 Active BIT,
- CONSTRAINT FK_SubscriptionLevels_Members FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
+ CONSTRAINT FK_SubscriptionLevels_Members FOREIGN KEY (MemberID) REFERENCES Members(MemberID),
+ CONSTRAINT FK_SubscriptionLevels_SubscriptionPrices FOREIGN KEY (Subtype) REFERENCES SubscriptionPrices(Subtype)
 )
 
-Print '--SubscriptionLevels table created --'
+Print '--SubscriptionLevels table created'
 
 INSERT INTO SubscriptionLevels (MemberID, Subtype, Active)
 Values 
@@ -89,13 +104,12 @@ Values
 
 
 
-
-
  
+
+
  CREATE TABLE Addresses
  (
- AddressID INT Identity(1,1)PRIMARY KEY,
- MemberID Varchar(10) NOT NULL ,
+ MemberID Varchar(10) NOT NULL PRIMARY KEY,
  [Address] Varchar(50) NOT NULL,
  City Varchar(30) NOT NULL,
  [State] Varchar(20),
@@ -104,7 +118,7 @@ Values
  CONSTRAINT FK_Addresses_Members FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
  )
 
- Print '--Addresses table created --'
+ Print '--Addresses table created'
 
  INSERT INTO Addresses (MemberID, [Address], City, [State], Postalcode, BillingAddress)
  VALUES
@@ -125,6 +139,25 @@ Values
  ('M0015','258 Jenna Drive','Pensacola','Florida','32520',1)
 
 
+  CREATE TABLE BillingAddresses
+ (
+ MemberID Varchar(10) NOT NULL PRIMARY KEY,
+ BillingAddress Varchar(50) NOT NULL,
+ City Varchar(30) NOT NULL,
+ [State] Varchar(20),
+ Postalcode Varchar (15),
+ CONSTRAINT FK_BillingAddresses_Members FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
+ )
+
+ Print '--Addresses table created'
+
+ INSERT INTO BillingAddresses (MemberID, BillingAddress, City, [state], Postalcode)
+ VALUES
+ ('M0002', 'P.O. Box 7088', 'Newton', 'Massachusetts', '2458'),
+ ('M0008', 'P.O. Box 255', 'Tallahassee', 'Florida', '32309'),
+ ('M0012', 'P.O. Box 1233', 'Tacoma', 'Washington', '98424')
+
+
 
  CREATE TABLE MemberNotes
  (
@@ -135,7 +168,7 @@ Values
  CONSTRAINT FK_MemberNotes_Members FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
  )
 
- Print '--MemberNotes table created --'
+ Print '--MemberNotes table created'
 
  INSERT INTO MemberNotes (MemberID,  Content, Notedate)
  Values
@@ -157,21 +190,6 @@ Values
 
 
 
- 
--- CREATE TABLE AccountCharges
--- (
--- ChargeID INT identity(1,1) Primary Key,
---MemberID Varchar(10) NOT NULL,
---Chargedate Date,
---Amount money,
---paymentmethod Varchar(30),
---PaymentIDRef Varchar(30),
--- CONSTRAINT FK_AccountCharges_Members FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
--- )
-
--- Print '--AccountCharges table created --'
-
-
 
  CREATE TABLE MemberCCInfo
  (
@@ -182,7 +200,7 @@ SecCode INT,
 Expdate Date
  )
 
- Print '--MemberCCInfo table created --'
+ Print '--MemberCCInfo table created'
 
  INSERT INTO MemberCCInfo (MemberID, CardType, CCID, ExpDate)
  VALUES
@@ -203,7 +221,7 @@ Expdate Date
 ('M0015', 'jcb', '3542828093985763', '03/31/2020')
 
 
- PRINT '--MemberCCInfo Table Populated'
+
 
  CREATE TABLE CCTransactions
  (
@@ -217,7 +235,7 @@ Expdate Date
  CONSTRAINT FK_CCTransactions_Members FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
  )
 
- Print '--CCTransactions table created --'
+ Print '--CCTransactions table created'
 
  INSERT INTO CCTransactions (MemberID, TransDate, Amount, CCresultCode)
  VALUES
@@ -325,7 +343,7 @@ Expdate Date
  CONSTRAINT FK_MemberInterests_Members FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
  )
 
- Print '--MemberInterests table created --'
+ Print '--MemberInterests table created'
 
  INSERT INTO MemberInterests (MemberID, Interest1, Interest2, Interest3)
  VALUES
@@ -355,31 +373,130 @@ Expdate Date
  Endtime datetime,
  eventtitle varchar(50),
  Description varchar(max),
- Organizer Varchar(10),
+ Organizer Varchar(20),
  comments varchar(max)
- CONSTRAINT FK_MemberEvents_Members FOREIGN KEY (Organizer) REFERENCES Members(MemberID)
  )
 
- Print '--MemberEvents table created --'
+ Print '--MemberEvents table created'
 
  INSERT INTO MemberEvents (EventDate, EventTitle, Organizer)
  VALUES
  ('1/12/2017', 'The History Of Human Emotions', 'Tiffany Watt Smith'),
  ('2/22/2017', 'How Great Leaders Inspire Action', 'Simon Sinek'),
  ('3/5/2017', 'The Puzzle Of Motivation', 'Dan Pink'),
- ('4/16/2017', 'Your Elusive Creative Genius', 'Elizabeth Gilbert')
- -------------------------------------------------------------------------------------------------THIS IS WHERE I LEFT OFF
+ ('4/16/2017', 'Your Elusive Creative Genius', 'Elizabeth Gilbert'),
+ ('5/1/2017', 'Why Are Programmers So Smart?', 'Andrew Comeau')
 
 
-  CREATE TABLE EventMembers
+
+
+ CREATE TABLE EventAttendance
  (
- EventID INT Primary Key,
- MemberID Varchar(10),
- Rating INT,
- Feedback Varchar(max),
- CONSTRAINT FK_EventMembers_Members FOREIGN KEY (MemberID) REFERENCES Members(MemberID),
- CONSTRAINT FK_EventMembers_MemberEvents FOREIGN KEY (EventID) REFERENCES MemberEvents(EventID)
- )
+ MemberID varchar(10) PRIMARY KEY, 
+ Firstname Varchar(20),
+ Lastname Varchar(20),
+ Event1 bit,
+ Event2 Bit,
+ event3 bit,
+ event4 bit,
+ event5 bit,
+  CONSTRAINT FK_EventAttendance_Members FOREIGN KEY (MemberID) REFERENCES Members(MemberID),
+  )
 
- Print '--EventMember table created --'
+  PRINT '--EventAttendance Table Created'
+
+
+  INSERT INTO EventAttendance (MemberID, Firstname, Lastname, event1, event2, event3, event4, event5)
+  VALUES
+('M0001','Otis','Fallon',0,0,1,1,1),
+('M0002','Katee','Gepp',1,0,1,1,0),
+('M0003','Lilla','Eatttok',1,1,1,0,1),
+('M0004','Ddene','Clapperton',1,1,1,1,1),
+('M0005','Audrye','Dawks',1,1,1,1,0),
+('M0006','Fredi','Burgyn',1,0,1,1,0),
+('M0007','Dimitri','Bellino',0,1,1,1,0),
+('M0008','Enrico','Seeney',1,1,1,1,0),
+('M0009','Marylinda','OSiaghail',0,1,1,1,0),
+('M0010','Luce','Kovalski',1,1,0,0,0),
+('M0011','Claiborn','Baldinotti',1,1,0,0,0),
+('M0012','Isabelle','Glossop',1,0,1,1,1),
+('M0013','Davina','Smith',1,1,0,0,1),
+('M0014','Panchito','De Gregorio',0,1,1,1,0),
+('M0015','Rowen','Birdfield',1,1,1,1,0)
+
+
+ -----FUNCTIONS
+
+ --A complete contact list for current members with name, physical mailing address, phone number and e-mail.
+ 
+
+ Select CONCAT(M.Firstname, ' ', M.Middlename, ' ', M.Lastname) [Name], A.[Address], A.City, A.[State], A.postalcode, M.Phone, M.Email
+ from members M
+ INNER JOIN Addresses A
+ ON M.memberid = A.memberID
+ WHERE Currentflag = 1
+
+
+ --An e-mail list with the member name and e-mail.
+
+ select CONCAT(Firstname,' ', Lastname) [Name], Email
+ FROM Members
+
+ --A list of members who are celebrating their birthday this month.
+
+ select CONCAT(Firstname,' ', Lastname) [Name], birthdate
+ FROM Members
+ WHERE datepart(Month, birthdate) = datepart(Month, getdate())
+
+ --Members are charged for renewals according to their payment plan 
+ --(monthly, quarterly, etc..) on the anniversary of the date they joined.
+ -- A user who joined on the 7th should always be billed on the 7th,
+ -- whether it's every one, three or 12 months. Some method is needed to 
+ --scan for current members who are up for renewal and to initiate the
+ -- billing to their credit card.
+
+
+
+ --The database should identify expired credit cards before it tries to bill to them.
+
+ Select M.Firstname, M.Lastname, CCID, ExpDate
+ FROM MemberCCInfo C
+ INNER JOIN Members M
+ ON C.Memberid = m.MemberID
+ WHERE Expdate <= getdate()
+
+ --We need to see the monthly income from member renewals over a given time frame.
+
+ select SUM(Amount) [Income]
+ from CCTransactions
+ WHERE CCresultcode = 'Approved' AND Transdate BETWEEN '2017-01-01' AND '2018-01-01'
+
+ --New member sign-ups per month over a given time frame.
+
+ select COUNT (Firstname)[Members], CONCAT((datepart(Month, Joindate)), '/',(datepart(Year, Joindate))) [Month]
+ FROM Members
+ GROUP BY datepart(Month, Joindate), datepart(year, Joindate)
+
+
+ --Attendance per event over a given time frame.
+
+Select COUNT(event1) [Attendees]
+FROM eventattendance
+WHERE event1 = 1
+
+Select COUNT(event2) [Attendees]
+FROM eventattendance
+WHERE event2 = 1
+
+Select COUNT(event3) [Attendees]
+FROM eventattendance
+WHERE event3 = 1
+
+Select COUNT(event4) [Attendees]
+FROM eventattendance
+WHERE event4 = 1
+
+Select COUNT(event5) [Attendees]
+FROM eventattendance
+WHERE event5 = 1
 
