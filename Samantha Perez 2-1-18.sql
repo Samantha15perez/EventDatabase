@@ -76,7 +76,6 @@ Create table SubscriptionLevels
 MemberID Varchar(10) PRIMARY KEY,
 Subtype Varchar(10),
 SubDescription Varchar(max),
-RenewalAmt Money,
 Active BIT,
  CONSTRAINT FK_SubscriptionLevels_Members FOREIGN KEY (MemberID) REFERENCES Members(MemberID),
  CONSTRAINT FK_SubscriptionLevels_SubscriptionPrices FOREIGN KEY (Subtype) REFERENCES SubscriptionPrices(Subtype)
@@ -426,27 +425,38 @@ Expdate Date
 
 
  -----FUNCTIONS
-
+;
  --A complete contact list for current members with name, physical mailing address, phone number and e-mail.
- 
 
+ GO 
+ create view MailingList 
+ AS
  Select CONCAT(M.Firstname, ' ', M.Middlename, ' ', M.Lastname) [Name], A.[Address], A.City, A.[State], A.postalcode, M.Phone, M.Email
  from members M
  INNER JOIN Addresses A
  ON M.memberid = A.memberID
  WHERE Currentflag = 1
+ ;
+
+ select * from MailingList
 
 
  --An e-mail list with the member name and e-mail.
-
+ CREATE VIEW EmailList
+ AS
  select CONCAT(Firstname,' ', Lastname) [Name], Email
  FROM Members
 
- --A list of members who are celebrating their birthday this month.
+ Select * from EmailList
 
+ --A list of members who are celebrating their birthday this month.
+ CREATE VIEW BirthdaysThisMonth
+ AS
  select CONCAT(Firstname,' ', Lastname) [Name], birthdate
  FROM Members
  WHERE datepart(Month, birthdate) = datepart(Month, getdate())
+
+Select * from BirthdaysThisMonth
 
  --Members are charged for renewals according to their payment plan 
  --(monthly, quarterly, etc..) on the anniversary of the date they joined.
@@ -455,48 +465,56 @@ Expdate Date
  --scan for current members who are up for renewal and to initiate the
  -- billing to their credit card.
 
+ select M.Firstname, M.Lastname, M.Joindate, SL.Subtype, SP.Subprice
+ FROM Members M
+ INNER JOIN SubscriptionLevels SL
+ ON SL.MemberID = M.MemberID
+ INNER JOIN SubscriptionPrices SP
+ ON SP.SubType = SL.subtype
+ WHERE SL.Active = 1
 
+ select Firstname, Lastname
+ FROM Members
+ WHERE datepart(Month, Joindate) = datepart(Month, getdate()) AND datepart(day, birthdate) = datepart(day, getdate())
+
+ ---------------------------------------------------------------------------------------------------------------------------HERE
 
  --The database should identify expired credit cards before it tries to bill to them.
-
+ CREATE VIEW ExpiredCCIDs
+ AS
  Select M.Firstname, M.Lastname, CCID, ExpDate
  FROM MemberCCInfo C
  INNER JOIN Members M
  ON C.Memberid = m.MemberID
  WHERE Expdate <= getdate()
 
- --We need to see the monthly income from member renewals over a given time frame.
+ Select * from ExpiredCCIDs
 
+ --We need to see the monthly income from member renewals over a given time frame.
+ CREATE VIEW MonthlyIncome
+ AS
  select SUM(Amount) [Income]
  from CCTransactions
  WHERE CCresultcode = 'Approved' AND Transdate BETWEEN '2017-01-01' AND '2018-01-01'
 
- --New member sign-ups per month over a given time frame.
+ Select * from MonthlyIncome
 
+ --New member sign-ups per month over a given time frame.
+ CREATE VIEW MemberSignUps
+ AS
  select COUNT (Firstname)[Members], CONCAT((datepart(Month, Joindate)), '/',(datepart(Year, Joindate))) [Month]
  FROM Members
  GROUP BY datepart(Month, Joindate), datepart(year, Joindate)
 
-
+ Select * from MemberSignUps
  --Attendance per event over a given time frame.
+ CREATE VIEW AttendanceByEvent
+ AS
+ Select 
+ (Select COUNT(event1) [Attendees] FROM eventattendance WHERE event1 = 1) [Event1],
+ (Select COUNT(event2) [Attendees] FROM eventattendance WHERE event2 = 1) [Event2],
+ (Select COUNT(event3) [Attendees] FROM eventattendance WHERE event3 = 1) [Event3],
+ (Select COUNT(event4) [Attendees] FROM eventattendance WHERE event4 = 1) [Event4],
+ (Select COUNT(event5) [Attendees] FROM eventattendance WHERE event5 = 1) [Event5]
 
-Select COUNT(event1) [Attendees]
-FROM eventattendance
-WHERE event1 = 1
-
-Select COUNT(event2) [Attendees]
-FROM eventattendance
-WHERE event2 = 1
-
-Select COUNT(event3) [Attendees]
-FROM eventattendance
-WHERE event3 = 1
-
-Select COUNT(event4) [Attendees]
-FROM eventattendance
-WHERE event4 = 1
-
-Select COUNT(event5) [Attendees]
-FROM eventattendance
-WHERE event5 = 1
-
+ Select * from AttendanceByEvent
