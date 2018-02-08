@@ -236,100 +236,100 @@ Expdate Date
 
  Print '--CCTransactions table created'
 
- INSERT INTO CCTransactions (MemberID, TransDate, Amount, CCresultCode)
+ INSERT INTO CCTransactions (MemberID, CCID, TransDate, Amount, CCresultCode)
  VALUES
-('M0005','1/15/2016','$9.99 ','Approved'),
-('M0005','2/15/2016','$9.99 ','Approved'),
-('M0005','3/15/2016','$9.99 ','Approved'),
-('M0013','3/21/2016','$99.00 ','Approved'),
-('M0005','4/15/2016','$9.99 ','Approved'),
-('M0013','4/21/2016','$99.00 ','Approved'),
-('M0012','4/25/2016','$27.00 ','Approved'),
-('M0005','5/15/2016','$9.99 ','Approved'),
-('M0005','6/15/2016','$9.99 ','Approved'),
-('M0005','7/15/2016','$9.99 ','Approved'),
-('M0012','7/25/2016','$27.00 ','Approved'),
-('M0005','8/15/2016','$9.99 ','Approved'),
-('M0008','9/9/2016','$99.00 ','Approved'),
-('M0005','9/15/2016','$9.99 ','Approved'),
-('M0005','10/15/2016','$9.99 ','Approved'),
-('M0012','10/25/2016','$27.00 ','Approved'),
-('M0005','11/15/2016','$9.99 ','Approved'),
-('M0009','11/21/2016','$99.00 ','Approved'),
-('M0005','12/15/2016','$9.99 ','Approved'),
-('M0005','1/15/2017','$9.99 ','Approved'),
-('M0012','1/25/2017','$27.00 ','Approved'),
-('M0014','1/27/2017','$9.99 ','Approved'),
-('M0005','2/15/2017','$9.99 ','Approved'),
-('M0003','2/26/2017','$27.00 ','Approved'),
-('M0014','2/27/2017','$9.99 ','Approved'),
-('M0006','3/13/2017','$99.00 ','Approved'),
-('M0005','3/15/2017','$9.99 ','Approved'),
-('M0011','3/19/2017','$9.99 ','Approved'),
-('M0014','3/27/2017','$9.99 ','Approved'),
-('M0001','4/7/2017','$9.99 ','Approved'),
-('M0005','4/15/2017','$9.99 ','Approved'),
-('M0011','4/19/2017','$9.99 ','Approved'),
-('M0012','4/25/2017','$27.00 ','Approved'),
-('M0014','4/27/2017','$9.99 ','Approved'),
-('M0001','5/7/2017','$9.99 ','Approved'),
-('M0005','5/15/2017','$9.99 ','Approved'),
-('M0011','5/19/2017','$9.99 ','Approved'),
-('M0003','5/26/2017','$27.00 ','Approved'),
-('M0014','5/27/2017','$9.99 ','Approved'),
-('M0001','6/7/2017','$9.99 ','Declined'),
-('M0001','6/8/2017','$9.99 ','Approved'),
-('M0005','6/15/2017','$9.99 ','Approved'),
-('M0011','6/19/2017','$9.99 ','Approved'),
-('M0014','6/27/2017','$9.99 ','Approved'),
-('M0001','7/7/2017','$9.99 ','Approved'),
-('M0005','7/15/2017','$9.99 ','Approved'),
-('M0011','7/19/2017','$9.99 ','Declined'),
-('M0011','7/20/2017','$9.99 ','Approved'),
-('M0012','7/25/2017','$27.00 ','Approved'),
-('M0014','7/27/2017','$9.99 ','Approved'),
-('M0001','8/7/2017','$9.99 ','Approved'),
-('M0007','8/9/2017','$9.99 ','Approved'),
-('M0005','8/15/2017','$9.99 ','Approved'),
-('M0011','8/19/2017','$9.99 ','Approved'),
-('M0003','8/26/2017','$27.00 ','Approved'),
-('M0014','8/27/2017','$9.99 ','Approved'),
-('M0001','9/7/2017','$9.99 ','Approved'),
-('M0007','9/9/2017','$9.99 ','Approved'),
-('M0008','9/9/2017','$99.00 ','Approved'),
-('M0005','9/15/2017','$9.99 ','Approved'),
-('M0011','9/19/2017','$9.99 ','Approved'),
-('M0014','9/27/2017','$9.99 ','Approved'),
-('M0015','10/6/2017','$9.99 ','Invalid Card'),
-('M0001','10/7/2017','$9.99 ','Approved'),
-('M0007','10/9/2017','$9.99 ','Approved'),
-('M0005','10/15/2017','$9.99 ','Approved'),
-('M0011','10/19/2017','$9.99 ','Approved'),
-('M0012','10/25/2017','$27.00 ','Approved'),
-('M0014','10/27/2017','$9.99 ','Approved'),
-('M0004','11/5/2017','$27.00 ','Approved'),
-('M0001','11/7/2017','$9.99 ','Approved'),
-('M0007','11/9/2017','$9.99 ','Approved'),
-('M0005','11/15/2017','$9.99 ','Approved'),
-('M0011','11/19/2017','$9.99 ','Approved'),
-('M0003','11/26/2017','$27.00 ','Declined'),
-('M0003','11/27/2017','$27.00 ','Approved'),
-('M0014','11/27/2017','$9.99 ','Approved'),
-('M0002','11/29/2017','$9.99 ','Approved'),
-('M0001','12/7/2017','$9.99 ','Approved'),
-('M0007','12/9/2017','$9.99 ','Approved'),
-('M0005','12/15/2017','$9.99 ','Approved'),
-('M0011','12/19/2017','$9.99 ','Approved'),
-('M0010','12/22/2017','$9.99 ','Approved'),
-('M0014','12/27/2017','$9.99 ','Approved'),
-('M0002','12/29/2017','$9.99 ','Approved'),
-('M0001','1/7/2018','$9.99 ','Approved'),
-('M0007','1/9/2018','$9.99 ','Approved'),
-('M0005','1/15/2018','$9.99 ','Approved'),
-('M0011','1/19/2018','$9.99 ','Approved'),
-('M0010','1/22/2018','$9.99 ','Approved'),
-('M0012','1/25/2018','$27.00 ','Approved'),
-('M0014','1/27/2018','$9.99 ','Approved')
+('M0005', '3571066026049076','1/15/2016','$9.99 ','Approved'),
+('M0005', '3571066026049076','2/15/2016','$9.99 ','Approved'),
+('M0005', '3571066026049076','3/15/2016','$9.99 ','Approved'),
+('M0013', '3559166521684728','3/21/2016','$99.00 ','Approved'),
+('M0005', '3571066026049076','4/15/2016','$9.99 ','Approved'),
+('M0013', '3559166521684728','4/21/2016','$99.00 ','Approved'),
+('M0012', '3543168150106220','4/25/2016','$27.00 ','Approved'),
+('M0005', '3571066026049076','5/15/2016','$9.99 ','Approved'),
+('M0005', '3571066026049076','6/15/2016','$9.99 ','Approved'),
+('M0005', '3571066026049076','7/15/2016','$9.99 ','Approved'),
+('M0012', '3543168150106220','7/25/2016','$27.00 ','Approved'),
+('M0005', '3571066026049076','8/15/2016','$9.99 ','Approved'),
+('M0008', '3569709859937370','9/9/2016','$99.00 ','Approved'),
+('M0005', '3571066026049076','9/15/2016','$9.99 ','Approved'),
+('M0005', '3571066026049076','10/15/2016','$9.99 ','Approved'),
+('M0012', '3543168150106220','10/25/2016','$27.00 ','Approved'),
+('M0005', '3571066026049076','11/15/2016','$9.99 ','Approved'),
+('M0009', '3529188090740670','11/21/2016','$99.00 ','Approved'),
+('M0005', '3571066026049076','12/15/2016','$9.99 ','Approved'),
+('M0005', '3571066026049076','1/15/2017','$9.99 ','Approved'),
+('M0012', '3543168150106220','1/25/2017','$27.00 ','Approved'),
+('M0014', '30414677064054','1/27/2017','$9.99 ','Approved'),
+('M0005', '3571066026049076','2/15/2017','$9.99 ','Approved'),
+('M0003', '4041593962566','2/26/2017','$27.00 ','Approved'),
+('M0014', '30414677064054','2/27/2017','$9.99 ','Approved'),
+('M0006', '30423652701879','3/13/2017','$99.00 ','Approved'),
+('M0005', '3571066026049076','3/15/2017','$9.99 ','Approved'),
+('M0011', '5108756299877313','3/19/2017','$9.99 ','Approved'),
+('M0014', '30414677064054','3/27/2017','$9.99 ','Approved'),
+('M0001', '337941553240515','4/7/2017','$9.99 ','Approved'),
+('M0005', '3571066026049076','4/15/2017','$9.99 ','Approved'),
+('M0011', '5108756299877313','4/19/2017','$9.99 ','Approved'),
+('M0012', '3543168150106220','4/25/2017','$27.00 ','Approved'),
+('M0014', '30414677064054','4/27/2017','$9.99 ','Approved'),
+('M0001', '337941553240515','5/7/2017','$9.99 ','Approved'),
+('M0005', '3571066026049076','5/15/2017','$9.99 ','Approved'),
+('M0011', '5108756299877313','5/19/2017','$9.99 ','Approved'),
+('M0003', '4041593962566','5/26/2017','$27.00 ','Approved'),
+('M0014', '30414677064054','5/27/2017','$9.99 ','Approved'),
+('M0001', '337941553240515','6/7/2017','$9.99 ','Declined'),
+('M0001', '337941553240515','6/8/2017','$9.99 ','Approved'),
+('M0005', '3571066026049076','6/15/2017','$9.99 ','Approved'),
+('M0011', '5108756299877313','6/19/2017','$9.99 ','Approved'),
+('M0014', '30414677064054','6/27/2017','$9.99 ','Approved'),
+('M0001', '337941553240515','7/7/2017','$9.99 ','Approved'),
+('M0005', '3571066026049076','7/15/2017','$9.99 ','Approved'),
+('M0011', '5108756299877313','7/19/2017','$9.99 ','Declined'),
+('M0011', '5108756299877313','7/20/2017','$9.99 ','Approved'),
+('M0012', '3543168150106220','7/25/2017','$27.00 ','Approved'),
+('M0014', '30414677064054','7/27/2017','$9.99 ','Approved'),
+('M0001', '337941553240515','8/7/2017','$9.99 ','Approved'),
+('M0007', '3532950215393858','8/9/2017','$9.99 ','Approved'),
+('M0005', '3571066026049076','8/15/2017','$9.99 ','Approved'),
+('M0011', '5108756299877313','8/19/2017','$9.99 ','Approved'),
+('M0003', '4041593962566','8/26/2017','$27.00 ','Approved'),
+('M0014', '30414677064054','8/27/2017','$9.99 ','Approved'),
+('M0001', '337941553240515','9/7/2017','$9.99 ','Approved'),
+('M0007', '3532950215393858','9/9/2017','$9.99 ','Approved'),
+('M0008', '3569709859937370','9/9/2017','$99.00 ','Approved'),
+('M0005', '3571066026049076','9/15/2017','$9.99 ','Approved'),
+('M0011', '5108756299877313','9/19/2017','$9.99 ','Approved'),
+('M0014', '30414677064054','9/27/2017','$9.99 ','Approved'),
+('M0015', '3542828093985763','10/6/2017','$9.99 ','Invalid Card'),
+('M0001', '337941553240515','10/7/2017','$9.99 ','Approved'),
+('M0007', '3532950215393858','10/9/2017','$9.99 ','Approved'),
+('M0005', '3571066026049076','10/15/2017','$9.99 ','Approved'),
+('M0011', '5108756299877313','10/19/2017','$9.99 ','Approved'),
+('M0012', '3543168150106220','10/25/2017','$27.00 ','Approved'),
+('M0014', '30414677064054','10/27/2017','$9.99 ','Approved'),
+('M0004', '3559478087149594','11/5/2017','$27.00 ','Approved'),
+('M0001', '337941553240515','11/7/2017','$9.99 ','Approved'),
+('M0007', '3532950215393858','11/9/2017','$9.99 ','Approved'),
+('M0005', '3571066026049076','11/15/2017','$9.99 ','Approved'),
+('M0011', '5108756299877313','11/19/2017','$9.99 ','Approved'),
+('M0003', '4041593962566','11/26/2017','$27.00 ','Declined'),
+('M0003', '4041593962566','11/27/2017','$27.00 ','Approved'),
+('M0014', '30414677064054','11/27/2017','$9.99 ','Approved'),
+('M0002', '4041372553875903','11/29/2017','$9.99 ','Approved'),
+('M0001', '337941553240515','12/7/2017','$9.99 ','Approved'),
+('M0007', '3532950215393858','12/9/2017','$9.99 ','Approved'),
+('M0005', '3571066026049076','12/15/2017','$9.99 ','Approved'),
+('M0011', '5108756299877313','12/19/2017','$9.99 ','Approved'),
+('M0010', '3530142576111598','12/22/2017','$9.99 ','Approved'),
+('M0014', '30414677064054','12/27/2017','$9.99 ','Approved'),
+('M0002', '4041372553875903','12/29/2017','$9.99 ','Approved'),
+('M0001', '337941553240515','1/7/2018','$9.99 ','Approved'),
+('M0007', '3532950215393858','1/9/2018','$9.99 ','Approved'),
+('M0005', '3571066026049076','1/15/2018','$9.99 ','Approved'),
+('M0011', '5108756299877313','1/19/2018','$9.99 ','Approved'),
+('M0010', '3530142576111598','1/22/2018','$9.99 ','Approved'),
+('M0012', '3543168150106220','1/25/2018','$27.00 ','Approved'),
+('M0014', '30414677064054','1/27/2018','$9.99 ','Approved')
 
 
  
@@ -465,19 +465,106 @@ Select * from BirthdaysThisMonth
  --scan for current members who are up for renewal and to initiate the
  -- billing to their credit card.
 
- select M.Firstname, M.Lastname, M.Joindate, SL.Subtype, SP.Subprice
+ CREATE VIEW Subscription_Renewals
+ AS 
+ select M.MemberID,M.Firstname, M.Lastname, M.Joindate, SL.Subtype, SP.Subprice, MCCI.CCID
  FROM Members M
  INNER JOIN SubscriptionLevels SL
  ON SL.MemberID = M.MemberID
  INNER JOIN SubscriptionPrices SP
  ON SP.SubType = SL.subtype
+  INNER JOIN MemberCCInfo MCCI
+ ON M.MemberID = MCCI.Memberid
+ WHERE SL.Active = 1 
+ and datepart(day, Joindate) = datepart(day, getdate()) 
+ AND SL.Subtype = 'Monthly'
+
+ --This query selects the Member Information by checking the current date against the log of
+ --join dates within the database, but only for active members, and members with the Subscription type 'Monthly'
+ 
+ UNION ALL 
+ select M.MemberID,M.Firstname, M.Lastname, M.Joindate, SL.Subtype, SP.Subprice, MCCI.CCID
+ FROM Members M
+ INNER JOIN SubscriptionLevels SL
+ ON SL.MemberID = M.MemberID
+ INNER JOIN SubscriptionPrices SP
+ ON SP.SubType = SL.subtype
+  INNER JOIN MemberCCInfo MCCI
+ ON M.MemberID = MCCI.Memberid
  WHERE SL.Active = 1
+ AND SL.Subtype = 'Quarterly'
+ AND datepart(day, Joindate) = datepart(day, getdate())
+ AND datepart(month, getdate()) IN 
+ ((select (datepart(month, M.joindate) + 3)),
+  (select (datepart(month, M.joindate) + 6)),
+  (select (datepart(month, M.joindate) + 9)))
 
- select Firstname, Lastname
- FROM Members
- WHERE datepart(Month, Joindate) = datepart(Month, getdate()) AND datepart(day, birthdate) = datepart(day, getdate())
+  --This query selects the Member Information by checking the current date against the log of
+ --join dates within the database, but only for active members, members with the Subscription type 'Quarterly',
+ --and members who's calculated quarterly renewal date falls on today's date.
+ UNION ALL 
+ select M.MemberID,M.Firstname, M.Lastname, M.Joindate, SL.Subtype, SP.Subprice, MCCI.CCID
+ FROM Members M
+ INNER JOIN SubscriptionLevels SL
+ ON SL.MemberID = M.MemberID
+ INNER JOIN SubscriptionPrices SP
+ ON SP.SubType = SL.subtype
+  INNER JOIN MemberCCInfo MCCI
+ ON M.MemberID = MCCI.Memberid
+ WHERE SL.Active = 1
+ AND SL.Subtype = 'Yearly'
+AND datepart(day, M.joindate) = datepart(day, getdate())
+AND datepart(month, m.joindate) = datepart(month, getdate())
 
- ---------------------------------------------------------------------------------------------------------------------------HERE
+  --This query selects the Member Information by checking the current date against the log of
+ --join dates within the database, but only for active members, members with the Subscription type 'Yearly',
+ --and members whos' joindate is exactly a year from today. 
+
+
+ UNION ALL 
+ select M.MemberID, M.Firstname, M.Lastname, M.Joindate, SL.Subtype, SP.Subprice, MCCI.CCID
+ FROM Members M
+ INNER JOIN SubscriptionLevels SL
+ ON SL.MemberID = M.MemberID
+ INNER JOIN SubscriptionPrices SP
+ ON SP.SubType = SL.subtype
+  INNER JOIN MemberCCInfo MCCI
+ ON M.MemberID = MCCI.Memberid
+ WHERE SL.Active = 1
+ AND SL.Subtype = 'Bi-Yearly'
+AND getdate() IN 
+((select dateadd(month, 24, M.Joindate)),
+ (select dateadd(month, 48, M.Joindate)),
+  (select dateadd(month, 72, M.Joindate)))
+
+  --This query selects the Member Information by checking the current date against the log of
+ --join dates within the database, but only for active members, members with the Subscription type 'Yearly',
+ --and members whos' joindate is exactly two years from today. The UNION ALL command combines the results
+ --of all of these queries and brings them together, so that the same view can be run every day to get
+ --the proper information for members who need to be charged for renewal.
+
+ select * from subscription_Renewals
+
+ CREATE PROCEDURE SP_SubscriptionRenewalCharge
+ AS
+ BEGIN
+	IF EXISTS (select * from Subscription_Renewals)
+		BEGIN
+			INSERT INTO CCTransactions (MemberID, CCID, Transdate, Amount, CCresultCode)
+			VALUES ((select MemberID from Subscription_renewals),
+					(select CCID from Subscription_Renewals),
+					getdate(),
+					(select Subprice from Subscription_Renewals),
+					'Pending')
+		END
+	SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
+END
+
+--This Procedure takes all of the information from the view I created earlier, and uses it to properly charge the Members'
+--Accounts for the amount their subscription calls for.
+--If you run this procedure every day, it will automatically charge the proper members for you. 
+
+
 
  --The database should identify expired credit cards before it tries to bill to them.
  CREATE VIEW ExpiredCCIDs
@@ -507,6 +594,8 @@ Select * from BirthdaysThisMonth
  GROUP BY datepart(Month, Joindate), datepart(year, Joindate)
 
  Select * from MemberSignUps
+
+
  --Attendance per event over a given time frame.
  CREATE VIEW AttendanceByEvent
  AS
@@ -518,3 +607,5 @@ Select * from BirthdaysThisMonth
  (Select COUNT(event5) [Attendees] FROM eventattendance WHERE event5 = 1) [Event5]
 
  Select * from AttendanceByEvent
+
+ --I have a seperate table within my database just for attendance. 
