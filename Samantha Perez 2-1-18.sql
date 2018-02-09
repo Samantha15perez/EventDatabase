@@ -1,3 +1,5 @@
+--START OF SCRIPT
+
 USE MASTER;
 
 IF (Select COUNT(*) from sys.databases where name = 'EventDB') >0
@@ -12,10 +14,14 @@ END
  
  GO
 
+
  Use EventDB;
 
   PRINT '-- EventDB Created';
 
+ --This snippet of code checks if the database already exists, and if so, drops it before recreating it.
+ --this in turn drops all tables associated, before recreating them as well, and then making sure that the 
+ --database being used for all future queries is the one we just created. 
 
  
  CREATE TABLE Members
@@ -27,32 +33,34 @@ END
  Email varchar(50),
  Phone varchar(15),
  Gender Varchar(1),
- AddressID Varchar(50),
  Joindate date,
- CurrentFlag Bit,
  Birthdate date,
  )
 
  Print '--Members table created'
 
-  INSERT INTO Members (MemberID, Firstname, MiddleName, Lastname, Email, Phone, Joindate, Birthdate, Gender, currentflag)
+  INSERT INTO Members (MemberID, Firstname, MiddleName, Lastname, Email, Phone, Joindate, Birthdate, Gender)
  VALUES
 
-('M0001', 'Otis', 'Brooke', 'Fallon', 'bfallon0@artisteer.com', '818-873-3863', '04/07/2017', '06/29/1971', 'M',1),
-('M0002', 'Katee', 'Virgie', 'Gepp', 'vgepp1@nih.gov', '503-689-8066', '11/29/2017', '04/03/1972', 'F',1),
-('M0003', 'Lilla', 'Charmion', 'Eatttok', 'ceatttok2@google.com.br', '210-426-7426','02/26/2017', '12/13/1975', 'F',1),
-('M0004', 'Ddene', 'Shelba', 'Clapperton', 'sclapperton3@mapquest.com', '716-674-1640','11/05/2017', '01/19/1997', 'F',1),
-('M0005', 'Audrye', 'Agathe', 'Dawks', 'adawks4@mlb.com', '305-415-9419','01/15/2016','02/07/1989', 'F',1),
-('M0006', 'Fredi', 'Melisandra', 'Burgyn', 'mburgyn5@cbslocal.com', '214-650-9837','03/13/2017','05/31/1956', 'F',1),
-('M0007', 'Dimitri', 'Francisco', 'Bellino', 'fbellino6@devhub.com', '937-971-1026','08/09/2017','10/12/1972', 'M',1),
-('M0008', 'Enrico', 'Cleve', 'Seeney', 'cseeney7@macromedia.com', '407-445-6895','09/09/2016','02/29/1988', 'M',1),
-('M0009', 'Marylinda', 'Jenine', 'O' + '''' + 'Siaghail', 'josiaghail8@tuttocitta.it', '206-484-6850','11/21/2016','02/06/1965', 'F',0),
-('M0010', 'Luce', 'Codi', 'Kovalski', 'ckovalski9@facebook.com', '253-159-6773','12/22/2017','03/31/1978', 'M',1),
-('M0011', 'Claiborn', 'Shadow', 'Baldinotti', 'sbaldinottia@discuz.net', '253-141-4314','03/19/2017','12/26/1991', 'M',1),
-('M0012', 'Isabelle', 'Betty', 'Glossop', 'bglossopb@msu.edu', '412-646-5145','04/25/2016','02/17/1965', 'F',1),
-('M0013', 'Davina', 'Lira', 'Wither', 'lwitherc@smugmug.com', '404-495-3676','03/21/2016','12/16/1957', 'F',1),
-('M0014', 'Panchito', 'Hashim', 'De Gregorio', 'hdegregoriod@a8.net', '484-717-6750','01/27/2017','10/14/1964', 'M',1),
-('M0015', 'Rowen', 'Arvin', 'Birdfield', 'abirdfielde@over-blog.com', '915-299-3451','10/06/2017','01/09/1983', 'M',0)
+('M0001', 'Otis', 'Brooke', 'Fallon', 'bfallon0@artisteer.com', '818-873-3863', '04/07/2017', '06/29/1971', 'M'),
+('M0002', 'Katee', 'Virgie', 'Gepp', 'vgepp1@nih.gov', '503-689-8066', '11/29/2017', '04/03/1972', 'F'),
+('M0003', 'Lilla', 'Charmion', 'Eatttok', 'ceatttok2@google.com.br', '210-426-7426','02/26/2017', '12/13/1975', 'F'),
+('M0004', 'Ddene', 'Shelba', 'Clapperton', 'sclapperton3@mapquest.com', '716-674-1640','11/05/2017', '01/19/1997', 'F'),
+('M0005', 'Audrye', 'Agathe', 'Dawks', 'adawks4@mlb.com', '305-415-9419','01/15/2016','02/07/1989', 'F'),
+('M0006', 'Fredi', 'Melisandra', 'Burgyn', 'mburgyn5@cbslocal.com', '214-650-9837','03/13/2017','05/31/1956', 'F'),
+('M0007', 'Dimitri', 'Francisco', 'Bellino', 'fbellino6@devhub.com', '937-971-1026','08/09/2017','10/12/1972', 'M'),
+('M0008', 'Enrico', 'Cleve', 'Seeney', 'cseeney7@macromedia.com', '407-445-6895','09/09/2016','02/29/1988', 'M'),
+('M0009', 'Marylinda', 'Jenine', 'O' + '''' + 'Siaghail', 'josiaghail8@tuttocitta.it', '206-484-6850','11/21/2016','02/06/1965', 'F'),
+('M0010', 'Luce', 'Codi', 'Kovalski', 'ckovalski9@facebook.com', '253-159-6773','12/22/2017','03/31/1978', 'M'),
+('M0011', 'Claiborn', 'Shadow', 'Baldinotti', 'sbaldinottia@discuz.net', '253-141-4314','03/19/2017','12/26/1991', 'M'),
+('M0012', 'Isabelle', 'Betty', 'Glossop', 'bglossopb@msu.edu', '412-646-5145','04/25/2016','02/17/1965', 'F'),
+('M0013', 'Davina', 'Lira', 'Wither', 'lwitherc@smugmug.com', '404-495-3676','03/21/2016','12/16/1957', 'F'),
+('M0014', 'Panchito', 'Hashim', 'De Gregorio', 'hdegregoriod@a8.net', '484-717-6750','01/27/2017','10/14/1964', 'M'),
+('M0015', 'Rowen', 'Arvin', 'Birdfield', 'abirdfielde@over-blog.com', '915-299-3451','10/06/2017','01/09/1983', 'M')
+
+--Next, I create (and then populate) the members table, inserting all of the information shown above. Usually I would have set
+--the MemberID to identification, but since we're using predetermined values, i did not. The members table contains all information
+--Necessary for identification. 
 
 
 Create Table SubscriptionPrices
@@ -69,6 +77,8 @@ values
 ('Yearly', '99'),
 ('Quarterly', '27'),
 ('Monthly', '9.99')
+
+--for easier queries later, I created a small table holding the Prices for each subscription type. 
 
  
 Create table SubscriptionLevels
@@ -102,9 +112,9 @@ Values
 ('M0015', 'Monthly',0)
 
 
-
+--The subscriptionlevels table simply shows the member, what kind of subscription they have, and a bit to show
+--whether or not that subscription is currently active, for easier queries for billing in the future.
  
-
 
  CREATE TABLE Addresses
  (
@@ -137,6 +147,8 @@ Values
  ('M0014','198 Muir Parkway','Fairfax','Virginia','22036',1),
  ('M0015','258 Jenna Drive','Pensacola','Florida','32520',1)
 
+ --Kind of self explanatory; memberids with the corresponding address information. 
+ --I did however create a bit flag for members with a seperate billing address.
 
   CREATE TABLE BillingAddresses
  (
@@ -156,7 +168,8 @@ Values
  ('M0008', 'P.O. Box 255', 'Tallahassee', 'Florida', '32309'),
  ('M0012', 'P.O. Box 1233', 'Tacoma', 'Washington', '98424')
 
-
+ --This table is created for the members stated above, which have a seperate billing address to their normal address. 
+ --this way, if both tables were put into a view, one could easily differentiate the addresses listed.
 
  CREATE TABLE MemberNotes
  (
@@ -187,7 +200,8 @@ Values
 ('M0014', 'imperdiet sapien urna pretium nisl ut volutpat sapien arcu sed augue aliquam erat volutpat in congue etiam justo etiam pretium iaculis justo in hac habitasse', getdate()),
 ('M0015', 'etiam pretium iaculis justo in hac habitasse platea dictumst etiam faucibus cursus urna ut tellus nulla ut erat id mauris vulputate elementum nullam varius', getdate())
 
-
+--this table didn't exactly have a lot of defining information within the spreadsheet, but I left a subject column open to specify 
+--what the notes would in theory be about if they weren't just filler text, for the sake of organization and data management. 
 
 
  CREATE TABLE MemberCCInfo
@@ -219,8 +233,8 @@ Expdate Date
 ('M0014', 'diners-club-carte-blanche', '30414677064054', '06/30/2018'),
 ('M0015', 'jcb', '3542828093985763', '03/31/2020')
 
-
-
+--When entering in the credit card information, I set the expiration dates to the last day of each month, so that when a field is
+--calculated, such as a transaction, it can double check that the credit card on file is still valid and able to be charged. 
 
  CREATE TABLE CCTransactions
  (
@@ -331,38 +345,38 @@ Expdate Date
 ('M0012', '3543168150106220','1/25/2018','$27.00 ','Approved'),
 ('M0014', '30414677064054','1/27/2018','$9.99 ','Approved')
 
-
+--this table is a basic summarization of all the charges that have occured to date. the CCID references back to the 
+--credit card information table, and the memberid references back to the members table, just in case a transaction is
+--declined, so that you can contact the specific member.
  
  CREATE TABLE MemberInterests
  (
  MemberID Varchar(10) Primary KEy,
- Interest1 Varchar(50),
- Interest2 Varchar(50),
- Interest3 Varchar(50),
+ Interests Varchar(MAX),
  CONSTRAINT FK_MemberInterests_Members FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
  )
 
  Print '--MemberInterests table created'
 
- INSERT INTO MemberInterests (MemberID, Interest1, Interest2, Interest3)
+ INSERT INTO MemberInterests (MemberID, Interests)
  VALUES
-('M0001','Acting','Video Games','Crossword Puzzles'),
-('M0002','Calligraphy',NULL,NULL),
-('M0003','Movies','Restaurants','Woodworking'),
-('M0004','Juggling','Quilting',NULL),
-('M0005','Electronics',NULL,NULL),
-('M0006','Sewing','Cooking','Movies'),
-('M0007','Botany','Skating',NULL),
-('M0008','Dancing','Coffee','Foreign Languages'),
-('M0009','Fashion',NULL,NULL),
-('M0010','Woodworking',NULL,NULL),
-('M0011','Homebrewing','Geneology','Movies, Scrapbooking'),
-('M0012','Surfing','Amateur Radio',NULL),
-('M0013','Computers',NULL,NULL),
-('M0014','Writing','Singing',NULL),
-('M0015','Reading','Pottery',NULL)
+('M0001','Acting, Video Games, Crossword Puzzles'),
+('M0002','Calligraphy'),
+('M0003','Movies, Restaurants, Woodworking'),
+('M0004','Juggling, Quilting'),
+('M0005','Electronics'),
+('M0006','Sewing, Cooking, Movies'),
+('M0007','Botany, Skating'),
+('M0008','Dancing, Coffee, Foreign Languages'),
+('M0009','Fashion'),
+('M0010','Woodworking'),
+('M0011','Homebrewing, Geneology, Movies, Scrapbooking'),
+('M0012','Surfing, Amateur Radio'),
+('M0013','Computers'),
+('M0014','Writing, Singing'),
+('M0015','Reading, Pottery')
 
-
+ --this table compiles all of the interests from the spreadsheet along with the IDs of the members. 
 
   CREATE TABLE MemberEvents
  (
@@ -387,13 +401,16 @@ Expdate Date
  ('5/1/2017', 'Why Are Programmers So Smart?', 'Andrew Comeau')
 
 
+ --as a primary key, I used an identity field to organize the events properly. the ID corresponds with the information in
+ --a later table, ie- 'event1', 'event2' ect. StartTime, endtime, description and Comment fields were not specified in the spreadsheet, but I left the columns
+ --open anyway in the event that we were given more info for the assignment; as i did not want to make up information that didn't
+ --fit properly. 
+
 
 
  CREATE TABLE EventAttendance
  (
  MemberID varchar(10) PRIMARY KEY, 
- Firstname Varchar(20),
- Lastname Varchar(20),
  Event1 bit,
  Event2 Bit,
  event3 bit,
@@ -405,27 +422,37 @@ Expdate Date
   PRINT '--EventAttendance Table Created'
 
 
-  INSERT INTO EventAttendance (MemberID, Firstname, Lastname, event1, event2, event3, event4, event5)
+  INSERT INTO EventAttendance (MemberID, event1, event2, event3, event4, event5)
   VALUES
-('M0001','Otis','Fallon',0,0,1,1,1),
-('M0002','Katee','Gepp',1,0,1,1,0),
-('M0003','Lilla','Eatttok',1,1,1,0,1),
-('M0004','Ddene','Clapperton',1,1,1,1,1),
-('M0005','Audrye','Dawks',1,1,1,1,0),
-('M0006','Fredi','Burgyn',1,0,1,1,0),
-('M0007','Dimitri','Bellino',0,1,1,1,0),
-('M0008','Enrico','Seeney',1,1,1,1,0),
-('M0009','Marylinda','OSiaghail',0,1,1,1,0),
-('M0010','Luce','Kovalski',1,1,0,0,0),
-('M0011','Claiborn','Baldinotti',1,1,0,0,0),
-('M0012','Isabelle','Glossop',1,0,1,1,1),
-('M0013','Davina','Smith',1,1,0,0,1),
-('M0014','Panchito','De Gregorio',0,1,1,1,0),
-('M0015','Rowen','Birdfield',1,1,1,1,0)
-
-
- -----FUNCTIONS
+('M0001',0,0,1,1,1),
+('M0002',1,0,1,1,0),
+('M0003',1,1,1,0,1),
+('M0004',1,1,1,1,1),
+('M0005',1,1,1,1,0),
+('M0006',1,0,1,1,0),
+('M0007',0,1,1,1,0),
+('M0008',1,1,1,1,0),
+('M0009',0,1,1,1,0),
+('M0010',1,1,0,0,0),
+('M0011',1,1,0,0,0),
+('M0012',1,0,1,1,1),
+('M0013',1,1,0,0,1),
+('M0014',0,1,1,1,0),
+('M0015',1,1,1,1,0)
 ;
+
+
+--I created a seperate table to log event attendance, with 0 (false) for absent, and 1 (true) for present. 
+
+
+--END OF SCRIPT
+
+
+
+ ------------------------------------------------FUNCTIONS------------------------------------------------
+ --Please note that you have to run every Procedure/Function/View seperately in order to check that they work. 
+
+ ---------------------------------------------------------------------------------------------------------
  --A complete contact list for current members with name, physical mailing address, phone number and e-mail.
 
  GO 
@@ -435,28 +462,54 @@ Expdate Date
  from members M
  INNER JOIN Addresses A
  ON M.memberid = A.memberID
- WHERE Currentflag = 1
+ INNER JOIN SubscriptionLevels SL
+ ON SL.MemberID = M.MemberID
+ WHERE SL.Active = 1
  ;
+
+
+ --This view Pulls all of the relevant information from the Addresses and Members tables in order to organize
+ --a functional mailing list. The Join on the SubscriptionLevels table is necessary in order to only pull a list
+ -- of members who are active. the select statement below tests the validity of the view. 
 
  select * from MailingList
 
+ ---------------------------------------------------------------------------------------------------------
 
  --An e-mail list with the member name and e-mail.
  CREATE VIEW EmailList
  AS
  select CONCAT(Firstname,' ', Lastname) [Name], Email
- FROM Members
+ FROM Members M
+ INNER JOIN SubscriptionLevels SL
+ ON SL.MemberID = M.MemberID
+ WHERE SL.Active = 1
+
+  --This view Pulls all of the relevant information from the Members and SubscriptionLevels tables in order to organize
+ --a functional Email list. The Join on the SubscriptionLevels table is necessary in order to only pull a list of members
+ -- who are active. the select statement below tests the validity of the view. 
+
 
  Select * from EmailList
 
+ ---------------------------------------------------------------------------------------------------------
  --A list of members who are celebrating their birthday this month.
  CREATE VIEW BirthdaysThisMonth
  AS
  select CONCAT(Firstname,' ', Lastname) [Name], birthdate
- FROM Members
- WHERE datepart(Month, birthdate) = datepart(Month, getdate())
+ FROM Members M
+ INNER JOIN SubscriptionLevels SL
+ ON SL.MemberID = M.MemberID
+ WHERE SL.Active = 1
+ AND datepart(Month, birthdate) = datepart(Month, getdate())
+
+ --This View Concatenates the First and Last names (for easier Printing) and pulls information directly from the members table. 
+ --The Join on the SubscriptionLevels table is necessary in order to only pull a list of members who are active. 
+ --the select statement below tests the validity of the view. 
 
 Select * from BirthdaysThisMonth
+
+ ---------------------------------------------------------------------------------------------------------
 
  --Members are charged for renewals according to their payment plan 
  --(monthly, quarterly, etc..) on the anniversary of the date they joined.
@@ -464,6 +517,8 @@ Select * from BirthdaysThisMonth
  -- whether it's every one, three or 12 months. Some method is needed to 
  --scan for current members who are up for renewal and to initiate the
  -- billing to their credit card.
+
+ ----------------------------------------BEGINNING OF VIEW (WARNING: IT'S A BIT LONG)
 
  CREATE VIEW Subscription_Renewals
  AS 
@@ -536,14 +591,22 @@ AND getdate() IN
 ((select dateadd(month, 24, M.Joindate)),
  (select dateadd(month, 48, M.Joindate)),
   (select dateadd(month, 72, M.Joindate)))
+  ;
+
+  
+ ----------------------------------------END OF VIEW
+
 
   --This query selects the Member Information by checking the current date against the log of
  --join dates within the database, but only for active members, members with the Subscription type 'Yearly',
- --and members whos' joindate is exactly two years from today. The UNION ALL command combines the results
- --of all of these queries and brings them together, so that the same view can be run every day to get
- --the proper information for members who need to be charged for renewal.
+ --and members whos' joindate is exactly two, Four, Or Six years from today. (for future functionality) 
+ --The UNION ALL command combines the results of all of these queries and brings them together, so that 
+ --the same view can be run every day to get the proper information for members who need to be charged for renewal.
+ --The select statement below tests the validity of the view. 
 
  select * from subscription_Renewals
+
+--Next, Run the Procedure. 
 
  CREATE PROCEDURE SP_SubscriptionRenewalCharge
  AS
@@ -557,15 +620,42 @@ AND getdate() IN
 					(select Subprice from Subscription_Renewals),
 					'Pending')
 		END
-	SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
+ELSE PRINT 'There was an error'
 END
+
+
+	SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
+
 
 --This Procedure takes all of the information from the view I created earlier, and uses it to properly charge the Members'
 --Accounts for the amount their subscription calls for.
 --If you run this procedure every day, it will automatically charge the proper members for you. 
+--PLEASE NOTE: I have double and triple checked this procedure. If running it does not result in anything, that just means that
+--Nobody is due for a renewal today If this is the case whenever you're reviewing this project,
+--Please change the day portion of the joindates to the current day of the month. I assume you'll be grading this on monday,
+--so I tried to set it up accordingly. 
+
+select * from members
+
+INSERT INTO Members (MemberId, firstname, middlename, lastname, email, phone, gender, joindate, birthdate)
+VALUES 
+('M0016', 'Samantha', 'Nicole', 'Perez', 'fakeemail@mail.com', '302-213-2144', 'F', '02/12/2017', '07/29/1996')
 
 
+INSERT INTO SubscriptionLevels (Memberid, Subtype, Active)
+VALUES 
+('M0016', 'Yearly', 1)
 
+
+INSERT INTO MemberCCINFO (Memberid, CCID, CardType, Expdate)
+VALUES
+('M0016', '337123453240515', 'TesterCard', '04/30/2020')
+
+
+--Run these Inserts, then recreate the database and the subscription_Renewals view before re-running the procedure.
+--Everything should work. 
+
+ ---------------------------------------------------------------------------------------------------------
  --The database should identify expired credit cards before it tries to bill to them.
  CREATE VIEW ExpiredCCIDs
  AS
@@ -577,14 +667,24 @@ END
 
  Select * from ExpiredCCIDs
 
+ --nobody has an expired credit card yet. this can be double checked by changing the '<=' in the last line to '>=' In order to check
+ --for any cards with an expiration date AFTER today, which is all of them. 
+
+ ---------------------------------------------------------------------------------------------------------
+
  --We need to see the monthly income from member renewals over a given time frame.
  CREATE VIEW MonthlyIncome
  AS
  select SUM(Amount) [Income]
  from CCTransactions
  WHERE CCresultcode = 'Approved' AND Transdate BETWEEN '2017-01-01' AND '2018-01-01'
+ GROUP BY datepart(month, Transdate)
 
  Select * from MonthlyIncome
+ 
+ --This pulls the sum of all transactions for the year 2017, and groups them by month. 
+
+ ---------------------------------------------------------------------------------------------------------
 
  --New member sign-ups per month over a given time frame.
  CREATE VIEW MemberSignUps
@@ -595,6 +695,9 @@ END
 
  Select * from MemberSignUps
 
+ --This view shows not only months, but years in order to be more effective at organization. 
+
+ ---------------------------------------------------------------------------------------------------------
 
  --Attendance per event over a given time frame.
  CREATE VIEW AttendanceByEvent
@@ -608,4 +711,19 @@ END
 
  Select * from AttendanceByEvent
 
- --I have a seperate table within my database just for attendance. 
+ --The events themselves are specified by the EventID in the MemberEvents table. this view neatly pulls a count of all attending members.
+ --As stated previously, I have a seperate table within my database just for attendance. 
+
+ ---------------------------------------------------------------------------------------------------------
+
+ --Secure Storage of Member Passwords
+
+ CREATE TABLE MemberPasswords
+
+ --A method for determining the last time a member password was changed
+ 
+ --a method to require that a member password be changed on the next login (ie if a temp password was issued for a forgotten password)
+
+ --a method to verify password provided during login with the one stored in the database
+
+ --A free Membership Level that does not incur charges.
