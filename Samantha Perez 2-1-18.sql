@@ -651,9 +651,12 @@ INSERT INTO MemberCCINFO (Memberid, CCID, CardType, Expdate)
 VALUES
 ('M0016', '337123453240515', 'TesterCard', '04/30/2020')
 
+EXEC SP_SubscriptionRenewalCharge
 
---Run these Inserts, then recreate the database and the subscription_Renewals view before re-running the procedure.
---Everything should work. 
+--Run these Inserts, then the statement above, and everything should work. 
+
+SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
+
 
  ---------------------------------------------------------------------------------------------------------
  --The database should identify expired credit cards before it tries to bill to them.
@@ -718,12 +721,78 @@ VALUES
 
  --Secure Storage of Member Passwords
 
+ use eventdb
+
  CREATE TABLE MemberPasswords
+ (
+ MemberID Varchar(10) PRIMARY KEY,
+ [Password] varchar(max),
+ modifieddate datetime DEFAULT getdate()
+ CONSTRAINT FK_MemberPasswords_Members FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
+ )
+
+ INSERT INTO MemberPasswords (memberid, [password], modifieddate)
+ VALUES
+ ('M0001', HASHBYTES( 'MD5', 'EggTastic'), getdate()),
+ ('M0002', HASHBYTES( 'MD5', 'Vroom298'), getdate()),
+ ('M0003', HASHBYTES( 'MD5', 'GreendayIsCool'), getdate()),
+ ('M0004', HASHBYTES( 'MD5', 'CoolRobloxDude99'), getdate()),
+ ('M0005', HASHBYTES( 'MD5', 'ThesePasswords'), getdate()),
+ ('M0006', HASHBYTES( 'MD5', 'ArentExciting'), getdate()),
+ ('M0007', HASHBYTES( 'MD5', 'IjustWant'), getdate()),
+ ('M0008', HASHBYTES( 'MD5', 'ToSleepPlease'), getdate()),
+ ('M0009', HASHBYTES( 'MD5', 'AAAAAAAA'), getdate()),
+ ('M0010', HASHBYTES( 'MD5', 'BBBBBBBB'), getdate()),
+ ('M0011', HASHBYTES( 'MD5', 'CCCCCCCC'), getdate()),
+ ('M0012', HASHBYTES( 'MD5', 'DDDDDDDD'), getdate()),
+ ('M0013', HASHBYTES( 'MD5', 'EEEEEEEE'), getdate()),
+ ('M0014', HASHBYTES( 'MD5', 'FFFFFFFF'), getdate()),
+ ('M0015', HASHBYTES( 'MD5', 'GGGGGGGG'), getdate())
+
+ --Running these creates a passwords table that stores all passwords as an MD5 hash. The primary key is the Memberid, 
+ --So it can accurately keep track of what password belongs to what person. The modifieddate just shows when the last
+ --change to this password was. The default is set to getdate() because for this project, the database is created
+ --the same day that these passwords are added. 
+
+ ---------------------------------------------------------------------------------------------------------
 
  --A method for determining the last time a member password was changed
+ create View PasswordChanged
+ AS
+  select M.Memberid, Firstname, Lastname, [Password] [Hash], Modifieddate from memberpasswords
+  INNER JOIN Members M
+  ON M.memberid = memberpasswords.MemberID
  
- --a method to require that a member password be changed on the next login (ie if a temp password was issued for a forgotten password)
+ select * from PasswordChanged
+
+ --this view shows all of the relevant information anyone might need to make sure the passwords are up to date for each person. 
+
+ ---------------------------------------------------------------------------------------------------------
 
  --a method to verify password provided during login with the one stored in the database
 
+ CREATE PROCEDURE PasswordHashChecker @Pass varchar(max)
+ AS
+ SELECT * FROM dbo.passwordChanged 
+ where [Hash] = (SELECT Hashbytes('Md5', @pass))
+
+ --This procedure uses the view 'passwordchanged' that I created earlier in order to run the provided password against the 
+ --hashes available within the view. It converts the input into the same type of hash, tests the hashes against each other
+ --and then pulls up any matching information. No plaintext passwords are shown through the database or even recorded.
+
+
+ exec PasswordHashChecker @pass = 'AAAAAAAA'
+
+ ---------------------------------------------------------------------------------------------------------
+
  --A free Membership Level that does not incur charges.
+
+
+ select * from SubscriptionPrices
+
+ insert into SubscriptionPrices (Subtype, subprice)
+ VALUES ('Free', '0')
+
+
+
+--The free subscriptiontype doesn't incur charges because the monetary value is set to zero. 
