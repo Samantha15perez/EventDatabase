@@ -442,6 +442,7 @@ Expdate Date
 ;
 
 
+
 --I created a seperate table to log event attendance, with 0 (false) for absent, and 1 (true) for present. 
 
 
@@ -620,7 +621,7 @@ AND getdate() IN
 					(select Subprice from Subscription_Renewals),
 					'Pending')
 		END
-ELSE PRINT 'There was an error'
+ELSE PRINT 'Nobody is due for a charge today. '
 END
 
 
@@ -781,18 +782,23 @@ SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
  --and then pulls up any matching information. No plaintext passwords are shown through the database or even recorded.
 
 
- exec PasswordHashChecker @pass = 'AAAAAAAA'
+ exec PasswordHashChecker @pass = 'ToSleepPlease'
 
  ---------------------------------------------------------------------------------------------------------
 
  --A free Membership Level that does not incur charges.
 
+ INSERT INTO SubscriptionPrices (SubType, subprice)
+ values ('Free', '0')
 
- select * from SubscriptionPrices
+UPDATE SubscriptionLevels
+SET Subtype = 'Free'
+WHERE MemberID = 'M0016'
 
- insert into SubscriptionPrices (Subtype, subprice)
- VALUES ('Free', '0')
+delete from CCTransactions WHERE CCresultCode = 'Pending'
 
+EXEC SP_SubscriptionRenewalCharge
 
+select * from CCTransactions WHERE CCresultCode = 'Pending'
 
---The free subscriptiontype doesn't incur charges because the monetary value is set to zero. 
+--The free subscriptiontype doesn't incur charges because the monetary value is set to zero, and there is no set charge date. 
