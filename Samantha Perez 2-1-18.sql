@@ -682,28 +682,36 @@ SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
 
  --We need to see the monthly income from member renewals over a given time frame.
  GO
- CREATE VIEW MonthlyIncome
+ ALTER Procedure SP_MonthlyIncome @Date1 datetime, @date2 datetime
  AS
- select SUM(Amount) [Income]
+ select CONCAT((datename(month, transdate)), '/',(datename(Year, getdate()))), SUM(Amount) [Income]
  from CCTransactions
- WHERE CCresultcode = 'Approved' AND Transdate BETWEEN '2017-01-01' AND '2018-01-01'
- GROUP BY datepart(month, Transdate)
+ INNER JOIN Members
+ ON CCtransactions.MemberID = Members.MemberID
+ WHERE CCresultcode = 'Approved' AND Transdate BETWEEN @date1 and @date2
+ GROUP BY datename(year, transdate)
  GO
- Select * from MonthlyIncome
+
+ exec sp_monthlyincome @date1 = '1/1/2016', @date2 = '1/1/2019'
  
+
+ Select datename(Month, getdate())
  --This pulls the sum of all transactions for the year 2017, and groups them by month. 
 
  ---------------------------------------------------------------------------------------------------------
 
  --New member sign-ups per month over a given time frame.
+
  GO
- CREATE VIEW MemberSignUps
+ CREATE PROCEDURE SP_MemberSignUps @Date1 datetime, @date2 datetime
  AS
- select COUNT (Firstname)[Members], CONCAT((datepart(Month, Joindate)), '/',(datepart(Year, Joindate))) [Month]
+  select COUNT (Firstname)[Members], CONCAT((datepart(Month, Joindate)), '/',(datepart(Year, Joindate))) [Month]
  FROM Members
+ WHERE Joindate > @date1 AND Joindate < @Date2
  GROUP BY datepart(Month, Joindate), datepart(year, Joindate)
- GO
- Select * from MemberSignUps
+
+ exec SP_membersignups @Date1 = '1/1/2016', @date2 = '1/1/2019'
+
 
  --This view shows not only months, but years in order to be more effective at organization. 
 
