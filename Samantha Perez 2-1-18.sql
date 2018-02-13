@@ -468,7 +468,7 @@ Expdate Date
  WHERE SL.Active = 1
  ;
 
-
+ GO
  --This view Pulls all of the relevant information from the Addresses and Members tables in order to organize
  --a functional mailing list. The Join on the SubscriptionLevels table is necessary in order to only pull a list
  -- of members who are active. the select statement below tests the validity of the view. 
@@ -476,8 +476,9 @@ Expdate Date
  select * from MailingList
 
  ---------------------------------------------------------------------------------------------------------
-
+ 
  --An e-mail list with the member name and e-mail.
+ GO
  CREATE VIEW EmailList
  AS
  select CONCAT(Firstname,' ', Lastname) [Name], Email
@@ -490,11 +491,12 @@ Expdate Date
  --a functional Email list. The Join on the SubscriptionLevels table is necessary in order to only pull a list of members
  -- who are active. the select statement below tests the validity of the view. 
 
-
+ GO
  Select * from EmailList
 
  ---------------------------------------------------------------------------------------------------------
  --A list of members who are celebrating their birthday this month.
+ GO
  CREATE VIEW BirthdaysThisMonth
  AS
  select CONCAT(Firstname,' ', Lastname) [Name], birthdate
@@ -507,7 +509,7 @@ Expdate Date
  --This View Concatenates the First and Last names (for easier Printing) and pulls information directly from the members table. 
  --The Join on the SubscriptionLevels table is necessary in order to only pull a list of members who are active. 
  --the select statement below tests the validity of the view. 
-
+ GO
 Select * from BirthdaysThisMonth
 
  ---------------------------------------------------------------------------------------------------------
@@ -520,7 +522,7 @@ Select * from BirthdaysThisMonth
  -- billing to their credit card.
 
  ----------------------------------------BEGINNING OF VIEW (WARNING: IT'S A BIT LONG)
-
+ GO
  CREATE VIEW Subscription_Renewals
  AS 
  select M.MemberID,M.Firstname, M.Lastname, M.Joindate, SL.Subtype, SP.Subprice, MCCI.CCID
@@ -593,7 +595,7 @@ AND getdate() IN
  (select dateadd(month, 48, M.Joindate)),
   (select dateadd(month, 72, M.Joindate)))
   ;
-
+  GO
   
  ----------------------------------------END OF VIEW
 
@@ -608,7 +610,7 @@ AND getdate() IN
  select * from subscription_Renewals
 
 --Next, Run the Procedure. 
-
+GO
  CREATE PROCEDURE SP_SubscriptionRenewalCharge
  AS
  BEGIN
@@ -624,6 +626,7 @@ AND getdate() IN
 ELSE PRINT 'Nobody is due for a charge today. '
 END
 
+go
 
 	SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
 
@@ -636,7 +639,7 @@ END
 --Please change the day portion of the joindates to the current day of the month. I assume you'll be grading this on monday,
 --so I tried to set it up accordingly. 
 
-select * from members
+GO
 
 INSERT INTO Members (MemberId, firstname, middlename, lastname, email, phone, gender, joindate, birthdate)
 VALUES 
@@ -661,6 +664,7 @@ SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
 
  ---------------------------------------------------------------------------------------------------------
  --The database should identify expired credit cards before it tries to bill to them.
+ GO
  CREATE VIEW ExpiredCCIDs
  AS
  Select M.Firstname, M.Lastname, CCID, ExpDate
@@ -668,7 +672,7 @@ SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
  INNER JOIN Members M
  ON C.Memberid = m.MemberID
  WHERE Expdate <= getdate()
-
+ GO
  Select * from ExpiredCCIDs
 
  --nobody has an expired credit card yet. this can be double checked by changing the '<=' in the last line to '>=' In order to check
@@ -677,13 +681,14 @@ SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
  ---------------------------------------------------------------------------------------------------------
 
  --We need to see the monthly income from member renewals over a given time frame.
+ GO
  CREATE VIEW MonthlyIncome
  AS
  select SUM(Amount) [Income]
  from CCTransactions
  WHERE CCresultcode = 'Approved' AND Transdate BETWEEN '2017-01-01' AND '2018-01-01'
  GROUP BY datepart(month, Transdate)
-
+ GO
  Select * from MonthlyIncome
  
  --This pulls the sum of all transactions for the year 2017, and groups them by month. 
@@ -691,12 +696,13 @@ SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
  ---------------------------------------------------------------------------------------------------------
 
  --New member sign-ups per month over a given time frame.
+ GO
  CREATE VIEW MemberSignUps
  AS
  select COUNT (Firstname)[Members], CONCAT((datepart(Month, Joindate)), '/',(datepart(Year, Joindate))) [Month]
  FROM Members
  GROUP BY datepart(Month, Joindate), datepart(year, Joindate)
-
+ GO
  Select * from MemberSignUps
 
  --This view shows not only months, but years in order to be more effective at organization. 
@@ -704,6 +710,7 @@ SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
  ---------------------------------------------------------------------------------------------------------
 
  --Attendance per event over a given time frame.
+ GO
  CREATE VIEW AttendanceByEvent
  AS
  Select 
@@ -712,7 +719,7 @@ SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
  (Select COUNT(event3) [Attendees] FROM eventattendance WHERE event3 = 1) [Event3],
  (Select COUNT(event4) [Attendees] FROM eventattendance WHERE event4 = 1) [Event4],
  (Select COUNT(event5) [Attendees] FROM eventattendance WHERE event5 = 1) [Event5]
-
+ GO
  Select * from AttendanceByEvent
 
  --The events themselves are specified by the EventID in the MemberEvents table. this view neatly pulls a count of all attending members.
@@ -722,7 +729,7 @@ SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
 
  --Secure Storage of Member Passwords
 
- use eventdb
+GO
 
  CREATE TABLE MemberPasswords
  (
@@ -758,12 +765,13 @@ SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
  ---------------------------------------------------------------------------------------------------------
 
  --A method for determining the last time a member password was changed
+ GO
  create View PasswordChanged
  AS
   select M.Memberid, Firstname, Lastname, [Password] [Hash], Modifieddate from memberpasswords
   INNER JOIN Members M
   ON M.memberid = memberpasswords.MemberID
- 
+ GO
  select * from PasswordChanged
 
  --this view shows all of the relevant information anyone might need to make sure the passwords are up to date for each person. 
@@ -771,7 +779,7 @@ SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
  ---------------------------------------------------------------------------------------------------------
 
  --a method to verify password provided during login with the one stored in the database
-
+ GO
  CREATE PROCEDURE PasswordHashChecker @Pass varchar(max)
  AS
  SELECT * FROM dbo.passwordChanged 
@@ -781,13 +789,13 @@ SELECT * from CCTransactions WHERE CCresultCode = 'Pending'
  --hashes available within the view. It converts the input into the same type of hash, tests the hashes against each other
  --and then pulls up any matching information. No plaintext passwords are shown through the database or even recorded.
 
-
+ GO
  exec PasswordHashChecker @pass = 'ToSleepPlease'
 
  ---------------------------------------------------------------------------------------------------------
 
  --A free Membership Level that does not incur charges.
-
+ GO
  INSERT INTO SubscriptionPrices (SubType, subprice)
  values ('Free', '0')
 
