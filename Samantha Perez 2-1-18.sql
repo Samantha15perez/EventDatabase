@@ -380,7 +380,7 @@ Expdate Date
 
   CREATE TABLE MemberEvents
  (
- EventID INT Identity(1,1) Primary Key,
+ EventID Varchar(10) Primary Key,
  Eventdate Date,
  Starttime datetime,
  Endtime datetime,
@@ -392,13 +392,13 @@ Expdate Date
 
  Print '--MemberEvents table created'
 
- INSERT INTO MemberEvents (EventDate, EventTitle, Organizer)
+ INSERT INTO MemberEvents (EventID, EventDate, EventTitle, Organizer)
  VALUES
- ('1/12/2017', 'The History Of Human Emotions', 'Tiffany Watt Smith'),
- ('2/22/2017', 'How Great Leaders Inspire Action', 'Simon Sinek'),
- ('3/5/2017', 'The Puzzle Of Motivation', 'Dan Pink'),
- ('4/16/2017', 'Your Elusive Creative Genius', 'Elizabeth Gilbert'),
- ('5/1/2017', 'Why Are Programmers So Smart?', 'Andrew Comeau')
+ ('Event1', '1/12/2017', 'The History Of Human Emotions', 'Tiffany Watt Smith'),
+ ('Event2', '2/22/2017', 'How Great Leaders Inspire Action', 'Simon Sinek'),
+ ('Event3', '3/5/2017', 'The Puzzle Of Motivation', 'Dan Pink'),
+ ('Event4', '4/16/2017', 'Your Elusive Creative Genius', 'Elizabeth Gilbert'),
+ ('Event5', '5/1/2017', 'Why Are Programmers So Smart?', 'Andrew Comeau')
 
 
  --as a primary key, I used an identity field to organize the events properly. the ID corresponds with the information in
@@ -818,3 +818,149 @@ EXEC SP_SubscriptionRenewalCharge
 select * from CCTransactions WHERE CCresultCode = 'Pending'
 
 --The free subscriptiontype doesn't incur charges because the monetary value is set to zero, and there is no set charge date. 
+
+ ---------------------------------------------------------------------------------------------------------
+
+ --FEBRUARY 13TH EXCERCISES
+
+update MemberEvents
+set [Description] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Interdum velit euismod in pellentesque massa placerat duis ultricies.'
+where eventtitle = 'The History Of Human Emotions'
+
+update MemberEvents
+set [Description] = 'Explicari vituperatoribus mel eu, graece labore phaedrum sed ei, ei choro albucius definitiones has.'
+where eventtitle = 'How Great Leaders Inspire Action'
+
+update MemberEvents
+set [Description] = 'An quo omnes denique consectetuer. Eu duo enim conceptam, eu dicta latine iracundia vim. Sed alia accommodare no. Ne mei civibus fuisset percipitur, vide offendit mel ad.'
+where eventtitle = 'The Puzzle Of Motivation'
+
+update MemberEvents
+set [Description] = 'Nibh iusto munere at nam. Hinc doming quo in, nam timeam latine apeirian et! Qui cu modo dolore, commune petentium eos ut.'
+where eventtitle = 'Your Elusive Creative Genius'
+
+update MemberEvents
+set [Description] = 'Minim liberavisse his in, ex esse interesset ius. Nam no euripidis referrentur, ne wisi senserit pertinacia mei, qui quem nominati sadipscing no? Eos quod corrumpit ea.'
+where eventtitle = 'Why Are Programmers So Smart?'
+
+ALTER TABLE Members
+ADD EventAdmin bit 
+
+UPDATE Members
+set EventAdmin = 0
+
+INSERT INTO Members (MemberId, firstname, middlename, lastname, email, phone, gender, joindate, birthdate, Eventadmin)
+VALUES 
+('M0017', 'Sleve', 'Nicholas', 'Mcdichael', 'Bestadmin@gmail.com', '634-623-2367', 'M', '01/12/2014', '07/21/1976', 1),
+('M0018', 'Rey', 'James', 'Alcoss', 'OraOraOra@gmail.com', '634-623-2367', 'M', '07/11/2013', '01/28/1985', 1),
+('M0019', 'Bobson', 'Smorin', 'Dugnutt', 'Nickleback_Rulz@gmail.com', '634-623-2367', 'M', '02/20/2014', '01/11/1962', 1),
+('M0020', 'Jinniel', 'Rey', 'Bonzales', 'Bestadmin@gmail.com', '634-623-2367', 'F', '05/13/2014', '02/08/1955', 1),
+('M0021', 'Dwigt', 'Nogilny', 'Rortugal', 'Bestadmin@gmail.com', '634-623-2367', 'M', '01/27/2015', '12/31/1931', 1)
+
+ALTER TABLE MemberEvents
+ADD AdminID varchar(10)
+
+UPDATE MemberEvents
+SET AdminID = 'M0017' WHERE EventID = 'Event1'
+
+UPDATE MemberEvents
+SET AdminID = 'M0018' WHERE EventID = 'Event2'
+
+UPDATE MemberEvents
+SET AdminID = 'M0019' WHERE EventID = 'Event3'
+
+UPDATE MemberEvents
+SET AdminID = 'M0020' WHERE EventID = 'Event4'
+
+UPDATE MemberEvents
+SET AdminID = 'M0021' WHERE EventID = 'Event5'
+
+
+select * from members
+select * from memberevents
+select * from eventattendance
+
+go
+create VIEW EventInformation WITH SCHEMABINDING
+AS
+ Select Eventtitle, Eventdate, [Description], Organizer, (Select COUNT(event2)  FROM dbo.eventattendance WHERE event2 = 1) [Attendance]
+ from dbo.memberevents ME
+ Where EventID = 'Event2'
+ UNION
+ Select Eventtitle, Eventdate, [Description], Organizer, (Select COUNT(event1)  FROM dbo.eventattendance WHERE event1 = 1) [Attendance]
+ from dbo.memberevents ME
+ Where EventID = 'Event1'
+ UNION
+ Select Eventtitle, Eventdate, [Description], Organizer, (Select COUNT(event3)  FROM dbo.eventattendance WHERE event3 = 1) [Attendance]
+ from dbo.memberevents ME
+ Where EventID = 'Event3'
+ UNION
+ Select Eventtitle, Eventdate, [Description], Organizer, (Select COUNT(event5)  FROM dbo.eventattendance WHERE event5 = 1) [Attendance]
+ from dbo.memberevents ME
+ Where EventID = 'Event5'
+ UNION
+ Select Eventtitle, Eventdate, [Description], Organizer, (Select COUNT(event4)  FROM dbo.eventattendance WHERE event4 = 1) [Attendance]
+ from dbo.memberevents ME
+ Where EventID = 'Event4'
+ WITH CHECK OPTION
+
+ Select * from EventInformation
+
+ ALTER TABLE MemberEvents DROP COLUMN EventTitle
+
+--Msg 5074, Level 16, State 1, Line 908
+--The object 'EventInformation' is dependent on column 'EventTitle'.
+--Msg 4922, Level 16, State 9, Line 908
+--ALTER TABLE DROP COLUMN EventTitle failed because one or more objects access this column.
+ -------------
+
+ Select M.Memberid, Firstname, Lastname, Phone, [Address], City, [State], Postalcode, transdate
+ from members M 
+ INNER JOIN Addresses A
+ ON M.MemberID = A.memberid
+ INNER JOIN CCTransactions C
+ ON C.Memberid = M.MemberID
+ inner join memberinterests MI
+ ON MI.MemberID = M.MemberID
+ group by M.Memberid, Firstname, Lastname, Phone, [Address], City, [State], Postalcode, TransDate
+
+
+
+ 
+
+
+ ALTER TABLE MemberEvents
+ add Series INT
+
+ update memberevents
+ set series = '1' where eventid IN ('Event1', 'Event3', 'Event5')
+
+  update memberevents
+ set series = '2' where eventid IN ('Event2', 'Event3', 'Event4')
+
+ select * from MemberEvents
+
+
+ CREATE TABLE EventSeries
+ (
+ SeriesID INT Identity(1,1),
+ SeriesTitle Varchar(max),
+ SeriesDescription Varchar(max),
+ startdate date,
+ enddate date,
+ SeriesAdminID varchar(10)
+ CONSTRAINT FK_EventSeries_Members FOREIGN KEY (SeriesAdminID) REFERENCES Members(MemberID),
+ )
+
+ INSERT INTO EVENTSERIES (Seriestitle, SeriesDescription, startdate, enddate, SeriesAdminID)
+ VALUES
+ ('Narcicisms Prevalence in Programming', NULL, '2017-01-12', '2017-05-01', 'M0020'),
+ ('TeamWork: Making Dreams work', NULL, '2017-02-22', '2017-04-16', 'M0019')
+
+ select * 
+ from eventseries ES
+ inner join members m
+ on ES.SeriesAdminID = M.MemberID
+
+
+ select * from members m
